@@ -3,13 +3,17 @@ import axios from 'axios';
 import { serverUrl } from '../../helpers/Constants';
 
 interface IFormContainerProps {
+  uploadReloadState: () => void;
 }
 
-const FormContainer: React.FunctionComponent<IFormContainerProps> = () => {
-  console.log("Requesting URL:", `${serverUrl}/shorturl`);
+const FormContainer: React.FunctionComponent<IFormContainerProps> = (props) => {
+  // console.log("Requesting URL:", `${serverUrl}/shorturl`);
 
+  //reload
+  const {uploadReloadState} = props;
   //form handling
   const [fullUrl, setFullUrl] = React.useState<string>('');
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -17,6 +21,7 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = () => {
         fullUrl: fullUrl
       });
       setFullUrl('');
+      uploadReloadState();
     } catch (error) {
       console.log(error);
       
